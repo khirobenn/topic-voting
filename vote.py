@@ -46,26 +46,25 @@ for k in range(0, 5):
     # Maintenant on résoud le système
     status = problem.solve()
 
-    # On stocke le maximum pour chaque k
-    my_maximums.append(problem.objective.value())
-
-
-    # ici, on récupère la solution
+    # ici, on récupère la solution dans une matrice de (nb_etudiants x nb_sujets)
     solution = []
 
-    # On enlève les contraintes mise sur les colonnes
-    # pour les mettre à jour à l'incrémentation du k
+    
     for i in range(0, nb_etudiants):
         tmp = []
         for j in range(0, nb_sujets):
             tmp.append(p.value(Y[i*5 + j]))
         solution.append(tmp)
-    # on affiche la solution et on vérifie si les contraintes sont respectées
+
     solution = np.array(solution)
 
     # On stocke la solution pour le k courant
     my_solutions.append(solution)
+    # On stocke le résultat de la fonction objective (son maximum) pour le k courant
+    my_maximums.append(problem.objective.value())
 
+    # On enlève les contraintes mise sur les colonnes
+    # pour les mettre à jour à l'incrémentation du k
     for i in range(0, 5):
         problem.constraints.popitem()
 
