@@ -19,10 +19,22 @@ for i in range(0, produit):
 
 # x sera les données collectées des étudiants
 df = pd.read_csv(sys.argv[1])
+
+# Ici, on vérifie que tout les jetons sont utilisés
+nb_jetons = df["Nombre de Jetons restants"]
+if nb_jetons.sum() != 0:
+    print("Il reste des jetons à utiliser")
+    exit()
+
 # On enlève le nom prénom et le nombre de jetons restants pour récupérer que les coefficients
 x = df.drop(["First name", "Last name", "Nombre de Jetons restants"], axis=1)
 # On met nos données comme un seul vecteur de (nb_etudiants * nb_sujets)
 x = np.array(x).flatten()
+
+# On vérifie que y'a aucun sujet qui a 0 jeton
+if len(x[x == 0]) != 0:
+    print("Il y'a un étudiant qui a mis 0 jetons sur un sujet!")
+    exit()
 
 # la fonction qu'il faut maximiser
 problem += (x*Y).sum()
