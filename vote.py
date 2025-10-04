@@ -17,8 +17,12 @@ Y = []
 for i in range(0, produit):
     Y.append(p.LpVariable('y'+str(i+1), lowBound=0, upBound=1, cat='Integer'))
 
+sheet_name = sys.argv[1] # Le nom du fichier excel
+sheet_id = sys.argv[2]  # l'id du fichier
+sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name}"
+
 # x sera les données collectées des étudiants
-df = pd.read_csv(sys.argv[1])
+df = pd.read_csv(sheet_url)
 
 # Ici, on vérifie que tout les jetons sont utilisés
 nb_jetons = df["Nombre de Jetons restants"]
@@ -97,4 +101,4 @@ print("Solution: ", my_sol)
 
 df["Groupe"] = groups
 
-print(df)
+df.to_csv("fichier_groupes.csv", index=False)
