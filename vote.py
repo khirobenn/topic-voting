@@ -18,8 +18,10 @@ for i in range(0, produit):
     Y.append(p.LpVariable('y'+str(i+1), lowBound=0, upBound=1, cat='Integer'))
 
 # x sera les données collectées des étudiants
-x = pd.read_csv(sys.argv[1])
-x = x.drop(["First name", "Last name"], axis=1)
+df = pd.read_csv(sys.argv[1])
+# On enlève le nom prénom et le nombre de jetons restants pour récupérer que les coefficients
+x = df.drop(["First name", "Last name", "Nombre de Jetons restants"], axis=1)
+# On met nos données comme un seul vecteur de (nb_etudiants * nb_sujets)
 x = np.array(x).flatten()
 
 # la fonction qu'il faut maximiser
@@ -77,4 +79,10 @@ print(my_maximums)
 
 # Notre solution est celle qui donne la plus grande valeurs dans my_maximum
 my_sol = my_solutions[np.argmax(my_maximums)]
+
+groups = np.argmax(my_sol, axis=1)+1
 print("Solution: ", my_sol)
+
+df["Groupe"] = groups
+
+print(df)
