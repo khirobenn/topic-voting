@@ -1,3 +1,5 @@
+import sys
+import pandas as pd
 import numpy as np
 import pulp as p
 
@@ -16,8 +18,9 @@ for i in range(0, produit):
     Y.append(p.LpVariable('y'+str(i+1), lowBound=0, upBound=1, cat='Integer'))
 
 # x sera les données collectées des étudiants
-x = np.random.rand(produit) * 10
-x = x.astype(int) + 1
+x = pd.read_csv(sys.argv[1])
+x = x.drop(["First name", "Last name"], axis=1)
+x = np.array(x).flatten()
 
 # la fonction qu'il faut maximiser
 problem += (x*Y).sum()
