@@ -51,7 +51,6 @@ for i in range(0, nb_etudiants):
     problem += contrainst == 0
 
 # L'ajout des contraintes sur les colonnes
-# le k faut le faire varier après pour obtenir tout les cas possible
 for i in range(0,  nb_sujets):
     contrainst = -5
     for j in range(0, nb_etudiants):
